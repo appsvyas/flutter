@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import '../../layouts/auth.dart';
+// import '../../layouts/auth.dart';
 
 enum _SupportState { unknown, supported, unsupported }
 
@@ -17,8 +17,8 @@ class BiometricAuth extends StatefulWidget {
 class _BiometricAuthState extends State<BiometricAuth> {
   final LocalAuthentication auth = LocalAuthentication();
   _SupportState _supportState = _SupportState.unknown;
-  bool? _canCheckBiometrics;
-  List<BiometricType>? _availableBiometrics;
+  // bool? _canCheckBiometrics;
+  // List<BiometricType>? _availableBiometrics;
   String _authorized = 'Not Authorized';
   bool _isAuthenticating = false;
 
@@ -32,71 +32,71 @@ class _BiometricAuthState extends State<BiometricAuth> {
         );
   }
 
-  Future<void> _checkBiometrics() async {
-    late bool canCheckBiometrics;
-    try {
-      canCheckBiometrics = await auth.canCheckBiometrics;
-    } on PlatformException catch (e) {
-      canCheckBiometrics = false;
-      print(e);
-    }
-    if (!mounted) {
-      return;
-    }
+  // Future<void> _checkBiometrics() async {
+  //   late bool canCheckBiometrics;
+  //   try {
+  //     canCheckBiometrics = await auth.canCheckBiometrics;
+  //   } on PlatformException catch (e) {
+  //     canCheckBiometrics = false;
+  //     print(e);
+  //   }
+  //   if (!mounted) {
+  //     return;
+  //   }
 
-    setState(() {
-      _canCheckBiometrics = canCheckBiometrics;
-    });
-  }
+  //   setState(() {
+  //     _canCheckBiometrics = canCheckBiometrics;
+  //   });
+  // }
 
-  Future<void> _getAvailableBiometrics() async {
-    late List<BiometricType> availableBiometrics;
-    try {
-      availableBiometrics = await auth.getAvailableBiometrics();
-    } on PlatformException catch (e) {
-      availableBiometrics = <BiometricType>[];
-      print(e);
-    }
-    if (!mounted) {
-      return;
-    }
+  // Future<void> _getAvailableBiometrics() async {
+  //   late List<BiometricType> availableBiometrics;
+  //   try {
+  //     availableBiometrics = await auth.getAvailableBiometrics();
+  //   } on PlatformException catch (e) {
+  //     availableBiometrics = <BiometricType>[];
+  //     print(e);
+  //   }
+  //   if (!mounted) {
+  //     return;
+  //   }
 
-    setState(() {
-      _availableBiometrics = availableBiometrics;
-    });
-  }
+  //   setState(() {
+  //     _availableBiometrics = availableBiometrics;
+  //   });
+  // }
 
-  Future<void> _authenticate() async {
-    bool authenticated = false;
-    try {
-      setState(() {
-        _isAuthenticating = true;
-        _authorized = 'Authenticating';
-      });
-      authenticated = await auth.authenticate(
-        localizedReason: 'Let OS determine authentication method',
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-        ),
-      );
-      setState(() {
-        _isAuthenticating = false;
-      });
-    } on PlatformException catch (e) {
-      print(e);
-      setState(() {
-        _isAuthenticating = false;
-        _authorized = 'Error - ${e.message}';
-      });
-      return;
-    }
-    if (!mounted) {
-      return;
-    }
+  // Future<void> _authenticate() async {
+  //   bool authenticated = false;
+  //   try {
+  //     setState(() {
+  //       _isAuthenticating = true;
+  //       _authorized = 'Authenticating';
+  //     });
+  //     authenticated = await auth.authenticate(
+  //       localizedReason: 'Let OS determine authentication method',
+  //       options: const AuthenticationOptions(
+  //         stickyAuth: true,
+  //       ),
+  //     );
+  //     setState(() {
+  //       _isAuthenticating = false;
+  //     });
+  //   } on PlatformException catch (e) {
+  //     print(e);
+  //     setState(() {
+  //       _isAuthenticating = false;
+  //       _authorized = 'Error - ${e.message}';
+  //     });
+  //     return;
+  //   }
+  //   if (!mounted) {
+  //     return;
+  //   }
 
-    setState(
-        () => _authorized = authenticated ? 'Authorized' : 'Not Authorized');
-  }
+  //   setState(
+  //       () => _authorized = authenticated ? 'Authorized' : 'Not Authorized');
+  // }
 
   Future<void> _authenticateWithBiometrics() async {
     bool authenticated = false;
@@ -123,10 +123,19 @@ class _BiometricAuthState extends State<BiometricAuth> {
         _isAuthenticating = false;
         _authorized = 'Error - ${e.message}';
       });
+      Timer(const Duration(seconds: 30), () {
+        setState(() {
+          _authorized = 'Not Authorized';
+        });
+      });
       return;
     }
     if (!mounted) {
       return;
+    }
+
+    if (authenticated) {
+      context.go('/home');
     }
 
     final String message = authenticated ? 'Authorized' : 'Not Authorized';

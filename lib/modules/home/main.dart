@@ -1,6 +1,8 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
+import '../../layouts/main.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -48,10 +50,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Layout(
         // NEW from here ...
         appBar: AppBar(
-          title: const Text('Startup Name Generator'),
+          title: const Text('Home'),
           actions: [
             IconButton(
               icon: const Icon(Icons.list),

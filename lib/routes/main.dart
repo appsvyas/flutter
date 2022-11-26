@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:selfsea/modules/video/main.dart';
 import '../modules/auth/main.dart';
 import '../modules/home/main.dart';
 
@@ -12,6 +13,10 @@ class SystemRouter {
       GoRoute(
         path: '/',
         builder: (context, state) => const Auth(),
+      ),
+      GoRoute(
+        path: '/video',
+        builder: (context, state) => const VideoApp(),
       ),
     ],
   );

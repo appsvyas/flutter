@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:flutter/services.dart';
+//import 'package:local_auth/local_auth.dart';
+//import 'package:flutter/services.dart';
 import 'package:selfsea/modules/auth/biometric.dart';
-import 'dart:async';
+//import 'dart:async';
 import '../../layouts/auth.dart';
 
-enum _SupportState { unknown, supported, unsupported }
+//enum _SupportState { unknown, supported, unsupported }
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
@@ -84,7 +84,7 @@ class _AuthState extends State<Auth> {
           ),
         ),
         const SizedBox(
-          height: 330,
+          height: 150,
           child: BiometricAuth(),
         ),
         const Text('New User? Create Account')
